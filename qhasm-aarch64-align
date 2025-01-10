@@ -1,0 +1,74 @@
+#!/bin/sh
+sed 's/#.*//' \
+| sed 's/:/#/g' \
+| ( python3 ./qhasm-aarch64-desc.py; cat ) \
+| qhasm-20070207/qhasm-ops \
+| qhasm-20070207/qhasm-regs \
+| grep -v '^op:livefloat80:' \
+| qhasm-20070207/qhasm-as \
+| sed 's/^lea \([a-z0-9]*\),\[\([a-z0-9]*\),\#\([0-9]*\)\]/add \1,\2,\#\3/' \
+| sed 's/v0%qregname/q0/g' \
+| sed 's/v1%qregname/q1/g' \
+| sed 's/v2%qregname/q2/g' \
+| sed 's/v3%qregname/q3/g' \
+| sed 's/v4%qregname/q4/g' \
+| sed 's/v5%qregname/q5/g' \
+| sed 's/v6%qregname/q6/g' \
+| sed 's/v7%qregname/q7/g' \
+| sed 's/v8%qregname/q8/g' \
+| sed 's/v9%qregname/q9/g' \
+| sed 's/v10%qregname/q10/g' \
+| sed 's/v11%qregname/q11/g' \
+| sed 's/v12%qregname/q12/g' \
+| sed 's/v13%qregname/q13/g' \
+| sed 's/v14%qregname/q14/g' \
+| sed 's/v15%qregname/q15/g' \
+| sed 's/v16%qregname/q16/g' \
+| sed 's/v17%qregname/q17/g' \
+| sed 's/v18%qregname/q18/g' \
+| sed 's/v19%qregname/q19/g' \
+| sed 's/v20%qregname/q20/g' \
+| sed 's/v21%qregname/q21/g' \
+| sed 's/v22%qregname/q22/g' \
+| sed 's/v23%qregname/q23/g' \
+| sed 's/v24%qregname/q24/g' \
+| sed 's/v25%qregname/q25/g' \
+| sed 's/v26%qregname/q26/g' \
+| sed 's/v27%qregname/q27/g' \
+| sed 's/v28%qregname/q28/g' \
+| sed 's/v29%qregname/q29/g' \
+| sed 's/v30%qregname/q30/g' \
+| sed 's/v31%qregname/q31/g' \
+| sed 's/v0%bot/v0.d[0]/g' \
+| sed 's/v1%bot/v1.d[0]/g' \
+| sed 's/v2%bot/v2.d[0]/g' \
+| sed 's/v3%bot/v3.d[0]/g' \
+| sed 's/v4%bot/v4.d[0]/g' \
+| sed 's/v5%bot/v5.d[0]/g' \
+| sed 's/v6%bot/v6.d[0]/g' \
+| sed 's/v7%bot/v7.d[0]/g' \
+| sed 's/v8%bot/v8.d[0]/g' \
+| sed 's/v9%bot/v9.d[0]/g' \
+| sed 's/v10%bot/v10.d[0]/g' \
+| sed 's/v11%bot/v11.d[0]/g' \
+| sed 's/v12%bot/v12.d[0]/g' \
+| sed 's/v13%bot/v13.d[0]/g' \
+| sed 's/v14%bot/v14.d[0]/g' \
+| sed 's/v15%bot/v15.d[0]/g' \
+| sed 's/v0%top/v0.d[1]/g' \
+| sed 's/v1%top/v1.d[1]/g' \
+| sed 's/v2%top/v2.d[1]/g' \
+| sed 's/v3%top/v3.d[1]/g' \
+| sed 's/v4%top/v4.d[1]/g' \
+| sed 's/v5%top/v5.d[1]/g' \
+| sed 's/v6%top/v6.d[1]/g' \
+| sed 's/v7%top/v7.d[1]/g' \
+| sed 's/v8%top/v8.d[1]/g' \
+| sed 's/v9%top/v9.d[1]/g' \
+| sed 's/v10%top/v10.d[1]/g' \
+| sed 's/v11%top/v11.d[1]/g' \
+| sed 's/v12%top/v12.d[1]/g' \
+| sed 's/v13%top/v13.d[1]/g' \
+| sed 's/v14%top/v14.d[1]/g' \
+| sed 's/v15%top/v15.d[1]/g' \
+| tr '$' '#'
