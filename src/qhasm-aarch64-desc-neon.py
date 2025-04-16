@@ -5,22 +5,22 @@
 # move
 #
 
-print( 'r = t:>r=reg128:<t=reg128:asm/mov >r.16b,<t.16b:' )
+print( 'r = t:>r=reg128:<t=reg128:asm/mov >r.16b, <t.16b:' )
 
 # vget_lane_xxx, a particular neon lane to GP
 for n,u in [(2,'d')]:
-  print( 's = r[n/%d]:>s=int64:<r=reg128:#n:asm/umov >s,<r.%s[#n]' % (n,u) )
+  print( 's = r[n/%d]:>s=int64:<r=reg128:#n:asm/umov >s, <r.%s[#n]' % (n,u) )
 
 for n,u in [(4,'s')]:
-  print( 's = r[n/%d]:>s=int32:<r=reg128:#n:asm/umov >s,<r.%s[#n]' % (n,u) )
-  print( 's = r[n/%d]:>s=int64:<r=reg128:#n:asm/smov >s,<r.%s[#n]' % (n,u) )
-  print( 's unsigned= r[n/%d]:>s=int64:<r=reg128:#n:asm/umov >s%%bot,<r.%s[#n]' % (n,u) )
+  print( 's = r[n/%d]:>s=int32:<r=reg128:#n:asm/umov >s, <r.%s[#n]' % (n,u) )
+  print( 's = r[n/%d]:>s=int64:<r=reg128:#n:asm/smov >s, <r.%s[#n]' % (n,u) )
+  print( 's unsigned= r[n/%d]:>s=int64:<r=reg128:#n:asm/umov >s%%bot, <r.%s[#n]' % (n,u) )
 
 for n,u in [(16,'b'),(8,'h')]:
-  print( 's = r[n/%d]:>s=int32:<r=reg128:#n:asm/smov >s,<r.%s[#n]' % (n,u) )
-  print( 's unsigned= r[n/%d]:>s=int32:<r=reg128:#n:asm/umov >s,<r.%s[#n]' % (n,u) )
-  print( 's = r[n/%d]:>s=int64:<r=reg128:#n:asm/smov >s,<r.%s[#n]' % (n,u) )
-  print( 's unsigned= r[n/%d]:>s=int64:<r=reg128:#n:asm/umov >s%%bot,<r.%s[#n]' % (n,u) )
+  print( 's = r[n/%d]:>s=int32:<r=reg128:#n:asm/smov >s, <r.%s[#n]' % (n,u) )
+  print( 's unsigned= r[n/%d]:>s=int32:<r=reg128:#n:asm/umov >s, <r.%s[#n]' % (n,u) )
+  print( 's = r[n/%d]:>s=int64:<r=reg128:#n:asm/smov >s, <r.%s[#n]' % (n,u) )
+  print( 's unsigned= r[n/%d]:>s=int64:<r=reg128:#n:asm/umov >s%%bot, <r.%s[#n]' % (n,u) )
 
 
 
@@ -29,18 +29,18 @@ for n,u in [(16,'b'),(8,'h')]:
 
 # vsetq_u64, GP to a particular neon lane
 for n,u in [(2,'d')]:
-  print( 'r[n/%d] = s:inplace>r=reg128:<r=reg128:#n:<s=int64:asm/ins <r.%s[#n],<s' % (n,u) )
+  print( 'r[n/%d] = s:inplace>r=reg128:<r=reg128:#n:<s=int64:asm/ins <r.%s[#n], <s' % (n,u) )
 for n,u in [(16,'b'),(8,'h'),(4,'s')]:
-  print( 'r[n/%d] = s:inplace>r=reg128:<r=reg128:#n:<s=int32:asm/ins <r.%s[#n],<s' % (n,u) )
-  print( 'r[n/%d] = s:inplace>r=reg128:<r=reg128:#n:<s=int64:asm/ins <r.%s[#n],<s%%bot' % (n,u) )
+  print( 'r[n/%d] = s:inplace>r=reg128:<r=reg128:#n:<s=int32:asm/ins <r.%s[#n], <s' % (n,u) )
+  print( 'r[n/%d] = s:inplace>r=reg128:<r=reg128:#n:<s=int64:asm/ins <r.%s[#n], <s%%wregname' % (n,u) )
 
 
 # GP to neon
 for n,u in [(2,'d')]:
-  print( '%dx r = s:inplace>r=reg128:<r=reg128:<s=int64:asm/dup <r.%d%s,<s'% (n,n,u) )
+  print( '%dx r = s:inplace>r=reg128:<r=reg128:<s=int64:asm/dup <r.%d%s, <s'% (n,n,u) )
 for n,u in [(16,'b'),(8,'h'),(4,'s')]:
-  print( '%dx r = s:inplace>r=reg128:<r=reg128:<s=int32:asm/dup <r.%d%s,<s'% (n,n,u) )
-  print( '%dx r = s:inplace>r=reg128:<r=reg128:<s=int64:asm/dup <r.%d%s,<s%%bot'% (n,n,u) )
+  print( '%dx r = s:inplace>r=reg128:<r=reg128:<s=int32:asm/dup <r.%d%s, <s'% (n,n,u) )
+  print( '%dx r = s:inplace>r=reg128:<r=reg128:<s=int64:asm/dup <r.%d%s, <s%%wregname'% (n,n,u) )
 
 
 # Cesare: Immediate value to neon(every lane)
@@ -55,8 +55,8 @@ print( ' 2x r = n:>r=reg128:#n:asm/movi >r.2d, $#n:')
 # neon lane to neon
 for n,u in [(16,'b'),(8,'h'),(4,'s'),(2,'d')]:
   regmod = '%d%s' % (n,u)
-  print( '%dx r = s[n]:inplace>r=reg128:<r=reg128:<s=reg128:#n:asm/dup <r.%s,<s.%s[#n]'% (n,regmod,u) )
-  print( '%dx r = s[n/%d]:inplace>r=reg128:<r=reg128:<s=reg128:#n:asm/dup <r.%s,<s.%s[#n]'% (n,n,regmod,u) )
+  print( '%dx r = s[n]:inplace>r=reg128:<r=reg128:<s=reg128:#n:asm/dup <r.%s, <s.%s[#n]'% (n,regmod,u) )
+  print( '%dx r = s[n/%d]:inplace>r=reg128:<r=reg128:<s=reg128:#n:asm/dup <r.%s, <s.%s[#n]'% (n,n,regmod,u) )
 
 # widening
 for n,u,ns,us in [(8,'h',16,'b'),(4,'s',8,'h'),(2,'d',4,'s')]:
@@ -103,30 +103,30 @@ for n,u in [(16,'b'),(8,'h'),(4,'s'),(2,'d')]:
 #
 
 # instruction: not (mvn)
-print( 'r = ~s:>r=reg128:<s=reg128:asm/not  >r.16b,<s.16b:' )
+print( 'r = ~s:>r=reg128:<s=reg128:asm/not >r.16b, <s.16b:' )
 
 # instruction: mvni
 
 
 # instruction: eor 
-print( 'r ^= t:inplace>r=reg128:<r=reg128:<t=reg128:asm/eor <r.16b,<r.16b,<t.16b:' )
-print( 'r = s ^ t:>r=reg128:<s=reg128:<t=reg128:asm/eor >r.16b,<s.16b,<t.16b:' )
+print( 'r ^= t:inplace>r=reg128:<r=reg128:<t=reg128:asm/eor <r.16b, <r.16b, <t.16b:' )
+print( 'r = s ^ t:>r=reg128:<s=reg128:<t=reg128:asm/eor >r.16b, <s.16b, <t.16b:' )
 
 # instruction: eor3
 # You should check if the machine support this eor3 instruction (FEAT-SHA3)
-print( 'r = s ^ t ^ u:>r=reg128:<s=reg128:<t=reg128:<u=reg128:asm/eor3 >r.16b,<s.16b,<t.16b,<u.16b:' )
+print( 'r = s ^ t ^ u:>r=reg128:<s=reg128:<t=reg128:<u=reg128:asm/eor3 >r.16b, <s.16b, <t.16b, <u.16b:' )
 
 # instruction: and
-print( 'r &= t:inplace>r=reg128:<r=reg128:<t=reg128:asm/and <r.16b,<r.16b,<t.16b:' )
-print( 'r = s & t:>r=reg128:<s=reg128:<t=reg128:asm/and >r.16b,<s.16b,<t.16b:' )
+print( 'r &= t:inplace>r=reg128:<r=reg128:<t=reg128:asm/and <r.16b, <r.16b, <t.16b:' )
+print( 'r = s & t:>r=reg128:<s=reg128:<t=reg128:asm/and >r.16b, <s.16b, <t.16b:' )
 
 # instruction: bic
-print( 'r &= ~t:inplace>r=reg128:<r=reg128:<t=reg128:asm/bic <r.16b,<r.16b,<t.16b:' )
-print( 'r = s & ~t:>r=reg128:<s=reg128:<t=reg128:asm/bic >r.16b,<s.16b,<t.16b:' )
+print( 'r &= ~t:inplace>r=reg128:<r=reg128:<t=reg128:asm/bic <r.16b, <r.16b, <t.16b:' )
+print( 'r = s & ~t:>r=reg128:<s=reg128:<t=reg128:asm/bic >r.16b, <s.16b, <t.16b:' )
 
 # instruction: orr
-print( 'r |= t:inplace>r=reg128:<r=reg128:<t=reg128:asm/orr <r.16b,<r.16b,<t.16b:' )
-print( 'r = s | t:>r=reg128:<s=reg128:<t=reg128:asm/orr >r.16b,<s.16b,<t.16b:' )
+print( 'r |= t:inplace>r=reg128:<r=reg128:<t=reg128:asm/orr <r.16b, <r.16b, <t.16b:' )
+print( 'r = s | t:>r=reg128:<s=reg128:<t=reg128:asm/orr >r.16b, <s.16b, <t.16b:' )
 
 
 # instruction: orr(vector, immediate)
@@ -179,18 +179,18 @@ print( '4x  r = reduce+ s[0/2]:>r=reg128:<s=reg128:asm/addv >r%hregname,<s.4h' )
 
 for n,u in [(16,'b'),(8,'h'),(4,'s'),(2,'d')]:
   nu = '%d%s'%(n,u)
-  print( f'{n}x r <<= s:>r=reg128:<r=reg128:<s=reg128:asm/sshl >r.{nu},<r.{nu},<s.{nu}' )
-  print( f'{n}x r = t << s:>r=reg128:<t=reg128:<s=reg128:asm/sshl >r.{nu},<t.{nu},<s.{nu}' )
-  print( f'{n}x r unsigned<<= s:>r=reg128:<r=reg128:<s=reg128:asm/ushl >r.{nu},<r.{nu},<s.{nu}' )
-  print( f'{n}x r = t unsigned<< s:>r=reg128:<t=reg128:<s=reg128:asm/ushl >r.{nu},<t.{nu},<s.{nu}' )
-  print( f'{n}x r <<= n:>r=reg128:<r=reg128:#n:asm/shl >r.{nu},<r.{nu},$#n' )
-  print( f'{n}x r = t << n:>r=reg128:<t=reg128:#n:asm/shl >r.{nu},<t.{nu},$#n' )
-  print( f'{n}x r unsigned<<= n:>r=reg128:<r=reg128:#n:asm/shl >r.{nu},<r.{nu},$#n' )
-  print( f'{n}x r = t unsigned<< n:>r=reg128:<t=reg128:#n:asm/shl >r.{nu},<t.{nu},$#n' )
-  print( f'{n}x r >>= n:>r=reg128:<r=reg128:#n:asm/sshr >r.{nu},<r.{nu},$#n' )
-  print( f'{n}x r = t >> n:>r=reg128:<t=reg128:#n:asm/sshr >r.{nu},<t.{nu},$#n' )
-  print( f'{n}x r unsigned>>= n:>r=reg128:<r=reg128:#n:asm/ushr >r.{nu},<r.{nu},$#n' )
-  print( f'{n}x r = t unsigned>> n:>r=reg128:<t=reg128:#n:asm/ushr >r.{nu},<t.{nu},$#n' )
+  print( f'{n}x r <<= s:>r=reg128:<r=reg128:<s=reg128:asm/sshl >r.{nu}, <r.{nu}, <s.{nu}' )
+  print( f'{n}x r = t << s:>r=reg128:<t=reg128:<s=reg128:asm/sshl >r.{nu}, <t.{nu}, <s.{nu}' )
+  print( f'{n}x r unsigned<<= s:>r=reg128:<r=reg128:<s=reg128:asm/ushl >r.{nu}, <r.{nu}, <s.{nu}' )
+  print( f'{n}x r = t unsigned<< s:>r=reg128:<t=reg128:<s=reg128:asm/ushl >r.{nu}, <t.{nu}, <s.{nu}' )
+  print( f'{n}x r <<= n:>r=reg128:<r=reg128:#n:asm/shl >r.{nu}, <r.{nu}, $#n' )
+  print( f'{n}x r = t << n:>r=reg128:<t=reg128:#n:asm/shl >r.{nu}, <t.{nu}, $#n' )
+  print( f'{n}x r unsigned<<= n:>r=reg128:<r=reg128:#n:asm/shl >r.{nu}, <r.{nu}, $#n' )
+  print( f'{n}x r = t unsigned<< n:>r=reg128:<t=reg128:#n:asm/shl >r.{nu}, <t.{nu}, $#n' )
+  print( f'{n}x r >>= n:>r=reg128:<r=reg128:#n:asm/sshr >r.{nu}, <r.{nu}, $#n' )
+  print( f'{n}x r = t >> n:>r=reg128:<t=reg128:#n:asm/sshr >r.{nu}, <t.{nu}, $#n' )
+  print( f'{n}x r unsigned>>= n:>r=reg128:<r=reg128:#n:asm/ushr >r.{nu}, <r.{nu}, $#n' )
+  print( f'{n}x r = t unsigned>> n:>r=reg128:<t=reg128:#n:asm/ushr >r.{nu}, <t.{nu}, $#n' )
 
 # shift right and accumulate
 for n,u in [(16,'b'),(8,'h'),(4,'s'),(2,'d')]:
@@ -214,8 +214,8 @@ for n,u,ns,us in [(8,'h',16,'b'),(4,'s',8,'h'),(2,'d',4,'s')]:
 
 for n,u in [(16,'b'),(8,'h'),(4,'s'),(2,'d')]:
   nu = '%d%s'%(n,u)
-  print( f'{n}x r += s:inplace>r=reg128:<r=reg128:<s=reg128:asm/add <r.{nu},<r.{nu},<s.{nu}' )
-  print( f'{n}x r = t + s:>r=reg128:<t=reg128:<s=reg128:asm/add >r.{nu},<t.{nu},<s.{nu}' )
+  print( f'{n}x r += s:inplace>r=reg128:<r=reg128:<s=reg128:asm/add <r.{nu}, <r.{nu}, <s.{nu}' )
+  print( f'{n}x r = t + s:>r=reg128:<t=reg128:<s=reg128:asm/add >r.{nu}, <t.{nu}, <s.{nu}' )
   print( f'{n}x r -= s:inplace>r=reg128:<r=reg128:<s=reg128:asm/sub <r.{nu},<r.{nu},<s.{nu}' )
   print( f'{n}x r = t - s:>r=reg128:<t=reg128:<s=reg128:asm/sub >r.{nu},<t.{nu},<s.{nu}' )
 
@@ -323,8 +323,8 @@ for n,u,ns,us in [(8,'h',16,'b'),(4,'s',8,'h'),(2,'d',4,'s')]:
 for n,u,ns,us in [(8,'h',16,'b'),(4,'s',8,'h'),(2,'d',4,'s')]:
   print( '%dx r += s[0] * t[0]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/smlal <r.%d%s,<s.%d%s,<t.%d%s'% (n,n,u,n,us,n,us) )
   print( '%dx r += s[1] * t[1]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/smlal2 <r.%d%s,<s.%d%s,<t.%d%s'% (n,n,u,ns,us,ns,us) )
-  print( '%dx r unsigned+= s[0] unsigned* t[0]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/umlal <r.%d%s,<s.%d%s,<t.%d%s'% (n,n,u,n,us,n,us) )
-  print( '%dx r unsigned+= s[1] unsigned* t[1]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/umlal2 <r.%d%s,<s.%d%s,<t.%d%s'% (n,n,u,ns,us,ns,us) )
+  print( '%dx r unsigned+= s[0] unsigned* t[0]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/umlal <r.%d%s, <s.%d%s, <t.%d%s'% (n,n,u,n,us,n,us) )
+  print( '%dx r unsigned+= s[1] unsigned* t[1]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/umlal2 <r.%d%s, <s.%d%s, <t.%d%s'% (n,n,u,ns,us,ns,us) )
 
   print( '%dx r -= s[0] * t[0]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/smlsl <r.%d%s,<s.%d%s,<t.%d%s'% (n,n,u,n,us,n,us) )
   print( '%dx r -= s[1] * t[1]:inplace>r=reg128:<r=reg128:<s=reg128:<t=reg128:asm/smlsl2 <r.%d%s,<s.%d%s,<t.%d%s'% (n,n,u,ns,us,ns,us) )
@@ -341,9 +341,9 @@ for n,u,ns,us in [(4,'s',8,'h'),(2,'d',4,'s')]:
    print( '%dx r = t[1] * s[n/%d]:>r=reg128:<t=reg128:<s=reg128:#n:asm/smull2 >r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,ns,us,us) )
    print( '%dx r = t[1] unsigned* s[n/%d]:>r=reg128:<t=reg128:<s=reg128:#n:asm/umull2 >r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,ns,us,us) )
    print( '%dx r += t[0] * s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/smlal <r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,n,us,us) )
-   print( '%dx r += t[0] unsigned* s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/umlal <r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,n,us,us) )
+   print( '%dx r += t[0] unsigned* s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/umlal <r.%d%s, <t.%d%s, <s.%s[#n]'% (n,ns,n,u,n,us,us) )
    print( '%dx r += t[1] * s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/smlal2 <r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,ns,us,us) )
-   print( '%dx r += t[1] unsigned* s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/umlal2 <r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,ns,us,us) )
+   print( '%dx r += t[1] unsigned* s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/umlal2 <r.%d%s, <t.%d%s, <s.%s[#n]'% (n,ns,n,u,ns,us,us) )
    print( '%dx r -= t[0] * s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/smlsl <r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,n,us,us) )
    print( '%dx r -= t[0] unsigned* s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/umlsl <r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,n,us,us) )
    print( '%dx r -= t[1] * s[n/%d]:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:#n:asm/smlsl2 <r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,ns,us,us) )
@@ -410,13 +410,13 @@ for n,u in [(16,'b'),(8,'h'),(4,'s'),(2,'d')]:
 
 for n,u in [(16,'b'),(8,'h'),(4,'s')]:
   nu = '%d%s'%(n,u)
-  print( f'{n}x r = s[0/{n}] t[0/{n}] s[1/{n}] t[1/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/zip1 >r.{nu},<s.{nu},<t.{nu}' )
-  print( f'{n}x r = s[{n//2}/{n}] t[{n//2}/{n}] s[{1+n//2}/{n}] t[{1+n//2}/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/zip2 >r.{nu},<s.{nu},<t.{nu}' )
+  print( f'{n}x r = s[0/{n}] t[0/{n}] s[1/{n}] t[1/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/zip1 >r.{nu}, <s.{nu}, <t.{nu}' )
+  print( f'{n}x r = s[{n//2}/{n}] t[{n//2}/{n}] s[{1+n//2}/{n}] t[{1+n//2}/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/zip2 >r.{nu}, <s.{nu}, <t.{nu}' )
 
 for n,u in [(2,'d')]:
   nu = '%d%s'%(n,u)
-  print( f'{n}x r zip= s[0/{n}] t[0/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/zip1 >r.{nu},<s.{nu},<t.{nu}' )
-  print( f'{n}x r zip= s[1/{n}] t[1/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/zip2 >r.{nu},<s.{nu},<t.{nu}' )
+  print( f'{n}x r zip= s[0/{n}] t[0/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/zip1 >r.{nu}, <s.{nu}, <t.{nu}' )
+  print( f'{n}x r zip= s[1/{n}] t[1/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/zip2 >r.{nu}, <s.{nu}, <t.{nu}' )
 
 
 #
@@ -425,8 +425,8 @@ for n,u in [(2,'d')]:
 
 for n,u in [(16,'b'),(8,'h'),(4,'s')]:
   nu = '%d%s'%(n,u)
-  print( f'{n}x r = s[0/{n}] s[2/{n}] t[0/{n}] t[2/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/uzp1 >r.{nu},<s.{nu},<t.{nu}' )
-  print( f'{n}x r = s[1/{n}] s[3/{n}] t[1/{n}] t[3/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/uzp2 >r.{nu},<s.{nu},<t.{nu}' )
+  print( f'{n}x r = s[0/{n}] s[2/{n}] t[0/{n}] t[2/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/uzp1 >r.{nu}, <s.{nu}, <t.{nu}' )
+  print( f'{n}x r = s[1/{n}] s[3/{n}] t[1/{n}] t[3/{n}]:>r=reg128:<s=reg128:<t=reg128:asm/uzp2 >r.{nu}, <s.{nu}, <t.{nu}' )
 
 
 # instruction: cnt
@@ -820,37 +820,37 @@ print( '4x t = signedsaturated((2 * r * s) >> 32):>t=reg128:<r=reg128:<s=reg128:
 print( '4x t = signedsaturated((r * s) >> 31):>t=reg128:<r=reg128:<s=reg128:asm/sqdmulh >t.4s,<r.4s,<s.4s:' )
 
 # instruction: sqdmull and sqdmull2 (by element)
-print( '8x t = saturated(2 * r[0/2] * s[n/8]):>t=reg128:<r=reg128:<s=reg128:#n:asm/sqdmull <t.4s,<r.4h,<s.h[#n]:' )
-print( '8x t = saturated(2 * r[1/2] * s[n/8]):>t=reg128:<r=reg128:<s=reg128:#n:asm/sqdmull2 <t.4s,<r.8h,<s.h[#n]:' )
-print( '4x t = saturated(2 * r[0/2] * s[n/4]):>t=reg128:<r=reg128:<s=reg128:#n:asm/sqdmull <t.2d,<r.2s,<s.s[#n]:' )
-print( '4x t = saturated(2 * r[1/2] * s[n/4]):>t=reg128:<r=reg128:<s=reg128:#n:asm/sqdmull2 <t.2d,<r.4s,<s.s[#n]:' )
+print( '8x t = saturated(2 * r[0/2] * s[n/8]):>t=reg128:<r=reg128:<s=reg128:#n:asm/sqdmull <t.4s, <r.4h, <s.h[#n]:' )
+print( '8x t = saturated(2 * r[1/2] * s[n/8]):>t=reg128:<r=reg128:<s=reg128:#n:asm/sqdmull2 <t.4s, <r.8h, <s.h[#n]:' )
+print( '4x t = saturated(2 * r[0/2] * s[n/4]):>t=reg128:<r=reg128:<s=reg128:#n:asm/sqdmull <t.2d, <r.2s, <s.s[#n]:' )
+print( '4x t = saturated(2 * r[1/2] * s[n/4]):>t=reg128:<r=reg128:<s=reg128:#n:asm/sqdmull2 <t.2d, <r.4s, <s.s[#n]:' )
 
 # instruction: sqdmull and sqdmull2 (vector)
-print( '8x t = saturated(2 * r[0/2] * s[0/2]):>t=reg128:<r=reg128:<s=reg128:asm/sqdmull <t.4s,<r.4h,<s.4h:' )
-print( '8x t = saturated(2 * r[1/2] * s[1/2]):>t=reg128:<r=reg128:<s=reg128:asm/sqdmull2 <t.4s,<r.8h,<s.8h:' )
-print( '4x t = saturated(2 * r[0/2] * s[0/2]):>t=reg128:<r=reg128:<s=reg128:asm/sqdmull <t.2d,<r.2s,<s.2s:' )
-print( '4x t = saturated(2 * r[1/2] * s[1/2]):>t=reg128:<r=reg128:<s=reg128:asm/sqdmull2 <t.2d,<r.4s,<s.4s:' )
+print( '8x t = saturated(2 * r[0/2] * s[0/2]):>t=reg128:<r=reg128:<s=reg128:asm/sqdmull <t.4s, <r.4h, <s.4h:' )
+print( '8x t = saturated(2 * r[1/2] * s[1/2]):>t=reg128:<r=reg128:<s=reg128:asm/sqdmull2 <t.4s, <r.8h, <s.8h:' )
+print( '4x t = saturated(2 * r[0/2] * s[0/2]):>t=reg128:<r=reg128:<s=reg128:asm/sqdmull <t.2d, <r.2s, <s.2s:' )
+print( '4x t = saturated(2 * r[1/2] * s[1/2]):>t=reg128:<r=reg128:<s=reg128:asm/sqdmull2 <t.2d, <r.4s, <s.4s:' )
 
 
 # instruction: sqrdmulh (by element)
-print( '4x t = (r * s[n/4]) >> 31 round:>t=reg128:<r=reg128:<s=reg128:#n:asm/sqrdmulh >t.4s,<r.4s,<s.s[#n]:' )
-print( '8x t = (r * s[n/8]) >> 15 round:>t=reg128:<r=reg128:<s=reg128:#n:asm/sqrdmulh >t.8h,<r.8h,<s.h[#n]:' )
+print( '4x t = (r * s[n/4]) >> 31 round:>t=reg128:<r=reg128:<s=reg128:#n:asm/sqrdmulh >t.4s, <r.4s, <s.s[#n]:' )
+print( '8x t = (r * s[n/8]) >> 15 round:>t=reg128:<r=reg128:<s=reg128:#n:asm/sqrdmulh >t.8h, <r.8h, <s.h[#n]:' )
 
 # instruction: sqrdmulh (vector)
-print( '4x t = (r * s) >> 31 round:>t=reg128:<r=reg128:<s=reg128:asm/sqrdmulh >t.4s,<r.4s,<s.4s:' )
-print( '8x t = (r * s) >> 15 round:>t=reg128:<r=reg128:<s=reg128:asm/sqrdmulh >t.8h,<r.8h,<s.8h:' )
-print( '2x t = (r * s) >> 31 round:>t=reg128:<r=reg128:<s=reg128:asm/sqrdmulh >t.2s,<r.2s,<s.2s:' )
-print( '4x t = (r * s) >> 15 round:>t=reg128:<r=reg128:<s=reg128:asm/sqrdmulh >t.4h,<r.4h,<s.4h:' )
+print( '4x t = (r * s) >> 31 round:>t=reg128:<r=reg128:<s=reg128:asm/sqrdmulh >t.4s, <r.4s, <s.4s:' )
+print( '8x t = (r * s) >> 15 round:>t=reg128:<r=reg128:<s=reg128:asm/sqrdmulh >t.8h, <r.8h, <s.8h:' )
+print( '2x t = (r * s) >> 31 round:>t=reg128:<r=reg128:<s=reg128:asm/sqrdmulh >t.2s, <r.2s, <s.2s:' )
+print( '4x t = (r * s) >> 15 round:>t=reg128:<r=reg128:<s=reg128:asm/sqrdmulh >t.4h, <r.4h, <s.4h:' )
 
 # instruction: umull and umull2 (by element)
 for n,u,ns,us in [(4,'s',8,'h'),(2,'d',4,'s')]:
-  print( '%dx r = t[0] unsigned* s[n/%d]:>r=reg128:<t=reg128:<s=reg128:#n:asm/umull >r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,n,us,us) )
-  print( '%dx r = t[1] unsigned* s[n/%d]:>r=reg128:<t=reg128:<s=reg128:#n:asm/umull2 >r.%d%s,<t.%d%s,<s.%s[#n]'% (n,ns,n,u,ns,us,us) )
+  print( '%dx r = t[0] unsigned* s[n/%d]:>r=reg128:<t=reg128:<s=reg128:#n:asm/umull >r.%d%s, <t.%d%s, <s.%s[#n]'% (n,ns,n,u,n,us,us) )
+  print( '%dx r = t[1] unsigned* s[n/%d]:>r=reg128:<t=reg128:<s=reg128:#n:asm/umull2 >r.%d%s, <t.%d%s, <s.%s[#n]'% (n,ns,n,u,ns,us,us) )
 
 # instruction: umull and umull2 (vector)
 for n,u,ns,us in [(8,'h',16,'b'),(4,'s',8,'h'),(2,'d',4,'s')]:
-  print( '%dx r = t[0] unsigned* s[0]:>r=reg128:<t=reg128:<s=reg128:asm/umull >r.%d%s,<t.%d%s,<s.%d%s'% (n,n,u,n,us,n,us) )
-  print( '%dx r = t[1] unsigned* s[1]:>r=reg128:<t=reg128:<s=reg128:asm/umull2 >r.%d%s,<t.%d%s,<s.%d%s'% (n,n,u,ns,us,ns,us) )
+  print( '%dx r = t[0] unsigned* s[0]:>r=reg128:<t=reg128:<s=reg128:asm/umull >r.%d%s, <t.%d%s, <s.%d%s'% (n,n,u,n,us,n,us) )
+  print( '%dx r = t[1] unsigned* s[1]:>r=reg128:<t=reg128:<s=reg128:asm/umull2 >r.%d%s, <t.%d%s, <s.%d%s'% (n,n,u,ns,us,ns,us) )
 
 # umlal (vector)
-print( '2x r += t * s:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:asm/umlal <r.2d,<t.2s,<s.2s' )
+print( '2x r += t * s:inplace>r=reg128:<r=reg128:<t=reg128:<s=reg128:asm/umlal <r.2d, <t.2s, <s.2s' )

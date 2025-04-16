@@ -383,14 +383,17 @@ print( 'r[3/4] = n:inplace>r=int64:<r=int64:#n:asm/movk <r, $#n,LSL $48:' )
 
 print( 'r = t:>r=int64:<t=int64:asm/mov >r,<t:' )
 print( 'r ^= t:>r=int64:<r=int64:<t=int64:asm/eor >r,<r,<t:' )
-print( 'r &= t:>r=int64:<r=int64:<t=int64:asm/and >r,<r,<t:' )
+print( 'r &= t:>r=int64:<r=int64:<t=int64:asm/and >r, <r, <t:' )
 print( 'r &= ~t:>r=int64:<r=int64:<t=int64:asm/bic >r,<r,<t:' )
 print( 'r |= t:>r=int64:<r=int64:<t=int64:asm/orr >r,<r,<t:' )
 print( 'r |= ~t:>r=int64:<r=int64:<t=int64:asm/orn >r,<r,<t:' )
 
 # Cesare says
-print("r = t & s:>r=int64:<t=int64:<s=int64:asm/and  >r,<t,<s:")
-print("r = t & n:>r=int64:<t=int64:#n:asm/and  >r,<t,$#n:")
+print("r = t & s:>r=int64:<t=int64:<s=int64:asm/and  >r, <t, <s:")
+print("r = t & n:>r=int64:<t=int64:#n:asm/and  >r, <t, $#n:")
+
+print("r = t & s:>r=int32:<t=int32:<s=int32:asm/and  >r, <t, <s:")
+print("r = t & n:>r=int32:<t=int32:#n:asm/and  >r, <t, $#n:")
 
 print( 'r = t ^ s:>r=int64:<t=int64:<s=int64:asm/eor >r,<t,<s:' )
 print( 'r = t ^ n:>r=int64:<t=int64:#n:asm/eor >r,<t,$#n:' )
@@ -404,29 +407,29 @@ print( 'r = |t|:>r=int64:<t=int64:asm/abs >r, <t' )
 
 
 
-print( 'r = s:>r=int64:<s=stack64:asm/ldr >r,<s:' )
-print( 's = r:<r=int64:>s=stack64:asm/str <r,>s:' )
-print( 'r = mem64[&s]:>r=int64:<s=stack64:asm/ldr >r,<s:' )
-print( 'r = mem64[&s+8]:>r=int64:<s=stack64:asm/ldr >r,!shift8<s:' )
-print( 'mem64[&s] = r:inplace>s=stack64:<r=int64:<s=stack64:asm/str <r,<s:' )
-print( 'mem64[&s+8] = r:inplace>s=stack64:<r=int64:<s=stack64:asm/str <r,!shift8<s:' )
+print( 'r = s:>r=int64:<s=stack64:asm/ldr >r, <s:' )
+print( 's = r:<r=int64:>s=stack64:asm/str <r, >s:' )
+print( 'r = mem64[&s]:>r=int64:<s=stack64:asm/ldr >r, <s:' )
+print( 'r = mem64[&s+8]:>r=int64:<s=stack64:asm/ldr >r, !shift8<s:' )
+print( 'mem64[&s] = r:inplace>s=stack64:<r=int64:<s=stack64:asm/str <r, <s:' )
+print( 'mem64[&s+8] = r:inplace>s=stack64:<r=int64:<s=stack64:asm/str <r, !shift8<s:' )
 
 # Cesare says
 ## Load a 64-bit value from memory
-print( 'r = mem64[s+n]:>r=int64:<s=int64:#n:asm/ldr >r,[<s,$#n]:')
-print( 'r = mem64[s]:>r=int64:<s=int64:asm/ldr >r,[<s]:')
+print( 'r = mem64[s+n]:>r=int64:<s=int64:#n:asm/ldr >r, [<s, $#n]:')
+print( 'r = mem64[s]:>r=int64:<s=int64:asm/ldr >r, [<s]:')
 ## Store a 64-bit value to memory
-print('mem64[s+n] = r:<s=int64:#n:<r=int64:asm/str <r,[<s,$#n]:')
-print('mem64[s] = r:<s=int64:<r=int64:asm/str <r,[<s]:')
+print('mem64[s+n] = r:<s=int64:#n:<r=int64:asm/str <r, [<s, $#n]:')
+print('mem64[s] = r:<s=int64:<r=int64:asm/str <r, [<s]:')
 
 
 # LDP for 2x64bit numbers
 print( 'r, s = mem128[t]:>r=int64:>s=int64:<t=int64:asm/ldp >r, >s, [<t]' )
-print( 'r, s = mem128[t+n]:>r=int64:>s=int64:<t=int64:#n:asm/ldp >r, >s, [<t,$#n]' )
+print( 'r, s = mem128[t+n]:>r=int64:>s=int64:<t=int64:#n:asm/ldp >r, >s, [<t, $#n]' )
 
 # LDP for 2x32bit numbers
 print( 'r, s = mem64[t]:>r=int32:>s=int32:<t=int64:asm/ldp >r, >s, [<t]' )
-print( 'r, s = mem64[t+n]:>r=int32:>s=int32:<t=int64:#n:asm/ldp >r, >s, [<t,$#n]' )
+print( 'r, s = mem64[t+n]:>r=int32:>s=int32:<t=int64:#n:asm/ldp >r, >s, [<t, $#n]' )
 
 
 
@@ -551,19 +554,24 @@ print( 't - s unsigned>> n:<t=int64:<s=int64:#n:asm/cmp <t,<s,LSR $#n:' )
 #
 
 print( 'r = n:>r=int32:#n:asm/mov >r, $#n:' )
+print( 'r = s:>r=int32:<s=int32:asm/mov >r, <s:' )
 
 print( 'r = s:>r=int32:<s=stack32:asm/ldr >r,<s:' )
-print( 's = r:<r=int32:>s=stack32:asm/str <r,>s:' )
+print( 's = r:<r=int32:>s=stack32:asm/str <r, >s:' )
 print( 'r = mem32[&s]:>r=int32:<s=stack64:asm/ldr >r,<s:' )
 print( 'r = mem32[&s+4]:>r=int32:<s=stack64:asm/ldr >r,!shift4<s:' )
-print( 'mem32[&s] = r:inplace>s=stack64:<r=int32:<s=stack64:asm/str <r,<s:' )
-print( 'mem32[&s+4] = r:inplace>s=stack64:<r=int32:<s=stack64:asm/str <r,!shift4<s:' )
+print( 'mem32[&s] = r:inplace>s=stack64:<r=int32:<s=stack64:asm/str <r, <s:' )
+print( 'mem32[&s+4] = r:inplace>s=stack64:<r=int32:<s=stack64:asm/str <r, !shift4<s:' )
 
 print( 'r += n:inplace>r=int32:<r=int32:#n:asm/add <r,<r,$#n:' )
 print( 'r = t + n:>r=int32:<t=int32:#n:asm/add >r,<t,$#n:' )
 print( 'r = t + s:>r=int32:<t=int32:<s=int32:asm/add >r,<t,<s:' )
 print( 'r += s:inplace>r=int32:<r=int32:<s=int32:asm/add <r,<r,<s:' )
 print( 'r = t + s << n:>r=int32:<t=int32:<s=int32:#n:asm/add >r,<t,<s,LSL $#n:' )
+
+# This is broken
+print( 'r += s << n:inplace>r=int32:<r=int32:<s=int32:#n:asm/add >r,<r,<s,LSL $#n:' )
+
 print( 'r = t + s >> n:>r=int32:<t=int32:<s=int32:#n:asm/add >r,<t,<s,ASR $#n:' )
 print( 'r = t + s unsigned>> n:>r=int32:<t=int32:<s=int32:#n:asm/add >r,<t,<s,LSR $#n:' )
 
@@ -583,15 +591,19 @@ print("r = t * s:>r=int64:<t=int32:<s=int32:asm/umull >r,<t,<s")
 #print("r = t * s (hi):>r=int32l:<t=int32:<s=int32:asm/umulh >r,<t,<s")
 
 print( 'r = mem32[s]:>r=int32:<s=int64:asm/ldr >r, [<s]:' )
-print( 'r = mem32[s+4]:>r=int32:<s=int64:asm/ldr >r, [<s+4]:' )
-print( 'r = mem32[s+n]:>r=int32:<s=int64:#n:asm/ldr >r, [<s+$#n]:' )
+print( 'r = mem32[s+4]:>r=int32:<s=int64:asm/ldr >r, [<s, 4]:' )
+print( 'r = mem32[s+n]:>r=int32:<s=int64:#n:asm/ldr >r, [<s, $#n]:' )
 
-print('mem32[s+n] = r:<s=int64:#n:<r=int32:asm/str <r,[<s,$#n]:')
-print('mem32[s] = r:<s=int64:<r=int32:asm/str <r,[<s]:')
+print( 'r = mem32[s]:>r=int64:<s=int64:asm/ldr >r%wregname, [<s]:' )
+print( 'r = mem32[s+4]:>r=int64:<s=int64:asm/ldr >r%wregname, [<s, 4]:' )
+print( 'r = mem32[s+n]:>r=int64:<s=int64:#n:asm/ldr >r%wregname, [<s, $#n]:' )
+
+print('mem32[s+n] = r:<s=int64:#n:<r=int32:asm/str <r, [<s, $#n]:')
+print('mem32[s] = r:<s=int64:<r=int32:asm/str <r, [<s]:')
 
 # store the 32bits value of a int64 into memory
-print('mem32[s] = r:<s=int64:<r=int64:asm/str <r%wregname,[<s]:')
-print('mem32[s+n] = r:<s=int64:<r=int64:#n:asm/str <r%wregname,[<s,$#n]:')
+print('mem32[s] = r:<s=int64:<r=int64:asm/str <r%wregname, [<s]:')
+print('mem32[s+n] = r:<s=int64:<r=int64:#n:asm/str <r%wregname, [<s, $#n]:')
 
 
 #
@@ -628,6 +640,7 @@ print( 'r = t + n !:>r=int32:<t=int32:#n:asm/adds >r,<t,$#n:' )
 print( 'r += n !:inplace>r=int32:<r=int32:#n:asm/adds <r,<r,$#n:' )
 print( 'r = t + s !:>r=int32:<t=int32:<s=int32:asm/adds >r,<t,<s:' )
 print( 'r = t + s << n !:>r=int32:<t=int32:<s=int32:#n:asm/adds >r,<t,<s,LSL $#n:' )
+print( 'r += s << n !:inplace>r=int32:<r=int32:<s=int32:#n:asm/adds >r,<r,<s,LSL $#n:' )
 print( 'r = t + s >> n !:>r=int32:<t=int32:<s=int32:#n:asm/adds >r,<t,<s,ASR $#n:' )
 print( 'r = t + s unsigned>> n !:>r=int32:<t=int32:<s=int32:#n:asm/adds >r,<t,<s,LSR $#n:' )
 
@@ -651,11 +664,12 @@ print( 't - s >> n:><t=int32:<s=int32:#n:asm/cmp <t,<s,ASR $#n:' )
 print( 't - s unsigned>> n:<t=int32:<s=int32:#n:asm/cmp <t,<s,LSR $#n:' )
 
 # Cesare says:
-#print("r = t >> n:>r=int32:<t=int32:#n:asm/lsr  <t,$#n")
-print("r = t unsigned>> n:>r=int64:<t=int64:#n:asm/lsr >r,<t,$#n")
-print("r = t signed>> n:>r=int64:<t=int64:#n:asm/asr >r,<t,$#n")
+print("r = t unsigned>> n:>r=int32:<t=int32:#n:asm/lsr >r, <t, $#n")
+print("r = t signed>> n:>r=int32:<t=int32:#n:asm/asr >r, <t, $#n")
+print("r = t unsigned>> n:>r=int64:<t=int64:#n:asm/lsr >r, <t, $#n")
+print("r = t signed>> n:>r=int64:<t=int64:#n:asm/asr >r, <t, $#n")
 #print("r = t << n:>r=int32:<t=int32:#n:asm/lsl  <t,$#n")
-print("r = t << n:>r=int64:<t=int64:#n:asm/lsl >r,<t,$#n")
+print("r = t << n:>r=int64:<t=int64:#n:asm/lsl >r, <t, $#n")
 # --
 
 
@@ -667,8 +681,8 @@ print("r = t << n:>r=int64:<t=int64:#n:asm/lsl >r,<t,$#n")
 print( 'r = mem128[s]:>r=reg128:<s=int64:asm/ldr >r%qregname,[<s]:' )
 print( 'r = mem128[s],s+=n:>r=reg128:<s=int64:>s=int64:#n:asm/ldr >r%qregname,[<s],$#n:' )
 print( 'r = mem128[s+n]:>r=reg128:<s=int64:#n:asm/ldr >r%qregname,[<s,$#n]:' )
-print( 'r = mem128[s+=n]:>r=reg128:<s=int64:>s=int64:#n:asm/ldr >r%qregname,[<s,$#n]!:' )
-print( 'r = mem128[s-=n]:>r=reg128:<s=int64:>s=int64:#n:asm/ldr >r%qregname,[<s,$-#n]!:' )
+print( 'r = mem128[s+=n]:>r=reg128:<s=int64:>s=int64:#n:asm/ldr >r%qregname,[<s, $#n]!:' )
+print( 'r = mem128[s-=n]:>r=reg128:<s=int64:>s=int64:#n:asm/ldr >r%qregname,[<s, $-#n]!:' )
 
 #print( 'r = mem128[s]:>r=reg128:<s=int64:asm/ld1.16b {>r},[<s]:' )
 
@@ -682,17 +696,17 @@ print( 'r = mem128[s-=n]:>r=reg128:<s=int64:>s=int64:#n:asm/ldr >r%qregname,[<s,
 # print( 'r aligned= mem128[s];s+=16:>r=reg128:<s=int32:asm/vld1.8 {>r%bot->r%top},[<s,!colon 128]!:' )
 
 
-print( 'mem128[s] = r:<s=int64:<r=reg128:asm/str <r%qregname,[<s]:' )
-print( 'mem128[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%qregname,[<s],$#n:' )
-print( 'mem128[s+n] = r:<s=int64:#n:<r=reg128:asm/str <r%qregname,[<s,$#n]:' )
-print( 'mem128[s+=n] = r:<r=reg128:<s=int64:>s=int64:#n:asm/str <r%qregname,[<s,$#n]!:' )
-print( 'mem128[s-=n] = r:<r=reg128:<s=int64:>s=int64:#n:asm/str <r%qregname,[<s,$-#n]!:' )
+print( 'mem128[s] = r:<s=int64:<r=reg128:asm/str <r%qregname, [<s]:' )
+print( 'mem128[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%qregname, [<s], $#n:' )
+print( 'mem128[s+n] = r:<s=int64:#n:<r=reg128:asm/str <r%qregname, [<s, $#n]:' )
+print( 'mem128[s+=n] = r:<r=reg128:<s=int64:>s=int64:#n:asm/str <r%qregname, [<s, $#n]!:' )
+print( 'mem128[s-=n] = r:<r=reg128:<s=int64:>s=int64:#n:asm/str <r%qregname, [<s, $-#n]!:' )
 
 
-print( 'mem8[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%bregname,[<s],$#n:' )
-print( 'mem16[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%hregname,[<s],$#n:' )
-print( 'mem32[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%sregname,[<s],$#n:' )
-print( 'mem64[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%dregname,[<s],$#n:' )
+print( 'mem8[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%bregname, [<s], $#n:' )
+print( 'mem16[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%hregname, [<s], $#n:' )
+print( 'mem32[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%sregname, [<s], $#n:' )
+print( 'mem64[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%dregname, [<s], $#n:' )
 
 
 #print( 'mem128[s] = r:<r=reg128:<s=int64:asm/st1.16b {<r},[<s]:' )
@@ -750,5 +764,9 @@ print("r = t , s >> n:>r=int32:<t=int32:<s=int32:#n:asm/extr >r,<t,<s, $#n:")
 
 
 # 64-bit UBFX:
-print("r = t & ((1 << n) - 1):>r=int64:<t=int64:#n:asm/ubfx >r,<t, $0, $#n:")
-print("r = (t >> m) & ((1 << n) - 1):>r=int64:<t=int64:#m:#n:asm/ubfx >r,<t, $#m, $#n:")
+print("r = t & ((1 << n) - 1):>r=int64:<t=int64:#n:asm/ubfx >r, <t, $0, $#n:")
+print("r = (t >> m) & ((1 << n) - 1):>r=int64:<t=int64:#m:#n:asm/ubfx >r, <t, $#m, $#n:")
+
+
+print( 'r = ~s:>r=int64:<s=int64:asm/mvn >r, <s:')
+print( 'r = ~s:>r=int32:<s=int32:asm/mvn >r, <s:')
