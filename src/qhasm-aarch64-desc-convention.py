@@ -20,10 +20,12 @@ stackalign = True
 
 
 print( ':name:int32:w0:w1:w2:w3:w4:w5:w6:w7:w8:w9:w10:w11:w12:w13:w14:w15:w16:w17:w18:w19:w20:w21:w22:w23:w24:w25:w26:w27:w28:w29:' )
+#print( ':name:int32:w0:w1:w2:w3:w4:w5:w6:w7:w8:w9:w10:w11:w12:w13:w14:w15:w16:w17:w19:w20:w21:w22:w23:w24:w25:w26:w27:w28:w29:' )
 print( 'new r:>r=int32:' )
 print( 'int32 r:var/r=int32:' )
 
 print( ':name:int64:x0:x1:x2:x3:x4:x5:x6:x7:x8:x9:x10:x11:x12:x13:x14:x15:x16:x17:x18:x19:x20:x21:x22:x23:x24:x25:x26:x27:x28:x29:' )
+#print( ':name:int64:x0:x1:x2:x3:x4:x5:x6:x7:x8:x9:x10:x11:x12:x13:x14:x15:x16:x17:x19:x20:x21:x22:x23:x24:x25:x26:x27:x28:x29:' )
 print( 'new r:>r=int64:' )
 print( 'int64 r:var/r=int64:' )
 
@@ -390,10 +392,10 @@ print( 'r |= ~t:>r=int64:<r=int64:<t=int64:asm/orn >r,<r,<t:' )
 
 # Cesare says
 print("r = t & s:>r=int64:<t=int64:<s=int64:asm/and  >r, <t, <s:")
-print("r = t & n:>r=int64:<t=int64:#n:asm/and  >r, <t, $#n:")
+print("r = t & n:>r=int64:<t=int64:#n:asm/and >r, <t, $#n:")
 
 print("r = t & s:>r=int32:<t=int32:<s=int32:asm/and  >r, <t, <s:")
-print("r = t & n:>r=int32:<t=int32:#n:asm/and  >r, <t, $#n:")
+print("r = t & n:>r=int32:<t=int32:#n:asm/and >r, <t, $#n:")
 
 print( 'r = t ^ s:>r=int64:<t=int64:<s=int64:asm/eor >r,<t,<s:' )
 print( 'r = t ^ n:>r=int64:<t=int64:#n:asm/eor >r,<t,$#n:' )
@@ -456,9 +458,12 @@ print( 'r = -s:>r=int64:<s=int64:asm/neg >r,<s' )
 # Cesare says
 # 64-bit multiplication
 print( 'r = t * s:>r=int64:<t=int64:<s=int64:asm/mul >r,<t,<s' )
-print( 'r = t * s (hi):>r=int64:<t=int64:<s=int64:asm/umulh >r,<t,<s' )
+print( 'r = t * s (hi):>r=int64:<t=int64:<s=int64:asm/umulh >r, <t, <s' )
+print( 'r = t unsigned* s (hi):>r=int64:<t=int64:<s=int64:asm/umulh >r, <t, <s' )
+print( 'r = t signed* s (hi):>r=int64:<t=int64:<s=int64:asm/smulh >r, <t, <s' )
 
-print( 'r = t * s + u:>r=int64:<t=int64:<s=int64:<u=int64:asm/madd >r,<t,<s,<u' )
+print( 'r = t * s + u:>r=int64:<t=int64:<s=int64:<u=int64:asm/madd >r, <t, <s, <u' )
+print( 'r = u + t * s:>r=int64:<t=int64:<s=int64:<u=int64:asm/madd >r, <t, <s, <u' )
 
 
 
@@ -499,7 +504,7 @@ print( 'r = t * s + u:>r=int64:<t=int64:<s=int64:<u=int64:asm/madd >r,<t,<s,<u' 
 print( 'r = t + n !:>r=int64:<t=int64:#n:asm/adds >r,<t,$#n:' )
 print( 'r += n !:inplace>r=int64:<r=int64:#n:asm/adds <r,<r,$#n:' )
 # Cesare says
-print( 'r += s !:>r=int64:<s=int64:asm/adds >r,>r,<s:' )
+print( 'r += s !:inplace>r=int64:<r=int64:<s=int64:asm/adds <r, <r, <s:' )
 #
 print( 'r = t + s !:>r=int64:<t=int64:<s=int64:asm/adds >r,<t,<s:' )
 print( 'r = t + s << n !:>r=int64:<t=int64:<s=int64:#n:asm/adds >r,<t,<s,LSL $#n:' )
@@ -668,6 +673,10 @@ print("r = t unsigned>> n:>r=int32:<t=int32:#n:asm/lsr >r, <t, $#n")
 print("r = t signed>> n:>r=int32:<t=int32:#n:asm/asr >r, <t, $#n")
 print("r = t unsigned>> n:>r=int64:<t=int64:#n:asm/lsr >r, <t, $#n")
 print("r = t signed>> n:>r=int64:<t=int64:#n:asm/asr >r, <t, $#n")
+print("r = t (unsigned)>> n:>r=int32:<t=int32:#n:asm/lsr >r, <t, $#n")
+print("r = t (signed)>> n:>r=int32:<t=int32:#n:asm/asr >r, <t, $#n")
+print("r = t (unsigned)>> n:>r=int64:<t=int64:#n:asm/lsr >r, <t, $#n")
+print("r = t (signed)>> n:>r=int64:<t=int64:#n:asm/asr >r, <t, $#n")
 #print("r = t << n:>r=int32:<t=int32:#n:asm/lsl  <t,$#n")
 print("r = t << n:>r=int64:<t=int64:#n:asm/lsl >r, <t, $#n")
 # --
@@ -719,6 +728,11 @@ print( 'mem256[s] = r[0/2] t[0/2] r[1/2] t[1/2], s+=32:<r=reg128:<t=reg128:<s=in
 
 print( 'push2x8b r , s:<r=reg128:<s=reg128:asm/stp <r%dregname,<s%dregname,[sp,$-16]!' )
 print( 'pop2x8b  r , s:>r=reg128:>s=reg128:asm/ldp >r%dregname,>s%dregname,[sp],$16' )
+
+print( 'push2xint64 r , s:<r=int64:<s=int64:asm/stp <r, <s, [sp, $-16]!' )
+print( 'pop2xint64  r , s:>r=int64:>s=int64:asm/ldp >r, >s, [sp], $16' )
+print( 'pushint64 r:<r=int64:asm/str <r, [sp, $-8]!' )
+print( 'popint64  r:>r=int64:asm/ldr >r, [sp], $8' )
 
 
 
