@@ -27,6 +27,7 @@ print( 'int32 r:var/r=int32:' )
 print( ':name:int64:x0:x1:x2:x3:x4:x5:x6:x7:x8:x9:x10:x11:x12:x13:x14:x15:x16:x17:x18:x19:x20:x21:x22:x23:x24:x25:x26:x27:x28:x29:' )
 #print( ':name:int64:x0:x1:x2:x3:x4:x5:x6:x7:x8:x9:x10:x11:x12:x13:x14:x15:x16:x17:x19:x20:x21:x22:x23:x24:x25:x26:x27:x28:x29:' )
 print( 'new r:>r=int64:' )
+print( 'free r:<r=int64:' )
 print( 'int64 r:var/r=int64:' )
 
 print( ':name:reg64:r0:r1:r2:r3:r4:r5:r6:r7:r8:r9:r10:r11:r12:r13:r14:r15:r16:r17:r18:r19:r20:r21:r22:r23:r24:r25:r26:r27:r28:r29:' )
@@ -553,6 +554,13 @@ print( 't - s >> n:><t=int64:<s=int64:#n:asm/cmp <t,<s,ASR $#n:' )
 print( 't - s unsigned>> n:<t=int64:<s=int64:#n:asm/cmp <t,<s,LSR $#n:' )
 
 
+
+print('r = t if signed>  else s:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, <s, gt:')
+print('r = t if signed>  else 0:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, xzr, gt:')
+print('r = t if negative else s:>r=int64:<t=int64:<s=int64:asm/csel >r,<t,<s,mi:')
+
+
+print('r = -s !:>r=int64:<s=int64:>?negative:>?carry:>?overflow:>?zero:asm/negs >r,<s:')
 
 #
 #  32-bit instructions
