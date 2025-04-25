@@ -430,6 +430,10 @@ print('mem64[s] = r:<s=int64:<r=int64:asm/str <r, [<s]:')
 print( 'r, s = mem128[t]:>r=int64:>s=int64:<t=int64:asm/ldp >r, >s, [<t]' )
 print( 'r, s = mem128[t+n]:>r=int64:>s=int64:<t=int64:#n:asm/ldp >r, >s, [<t, $#n]' )
 
+# STP
+print( 'mem128[t] = r, s:<r=int64:<s=int64:<t=int64:asm/stp <r, <s, [<t]' )
+print( 'mem128[t+n] = r, s:<r=int64:<s=int64:<t=int64:#n:asm/stp <r, <s, [<t, $#n]' )
+
 # LDP for 2x32bit numbers
 print( 'r, s = mem64[t]:>r=int32:>s=int32:<t=int64:asm/ldp >r, >s, [<t]' )
 print( 'r, s = mem64[t+n]:>r=int32:>s=int32:<t=int64:#n:asm/ldp >r, >s, [<t, $#n]' )
