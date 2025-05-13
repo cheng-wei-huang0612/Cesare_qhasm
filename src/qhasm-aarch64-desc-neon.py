@@ -45,7 +45,7 @@ for n,u in [(16,'b'),(8,'h'),(4,'s')]:
 
 # Cesare: Immediate value to neon(every lane)
 
-print( ' 2x r = n:>r=reg128:#n:asm/movi >r.2d, $#n:')
+print( ' 2x r = n:inplace>r=reg128:<r=reg128:#n:asm/movi <r.2d, $#n:')
 
 
 

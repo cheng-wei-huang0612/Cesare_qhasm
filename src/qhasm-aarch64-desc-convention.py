@@ -54,6 +54,19 @@ for i in range(0,29):
 for i in range(0,31):
   print( 'assign v%d to r:<r=reg128#%d:' % (i,i+1) )
 
+    # Issue: This is anti-human
+    # After assigning vX to a variable, say, xyz,
+    # You can NOT let this variable play the role of pure
+    # "output" register, i.e., play the role of >r=reg128 
+    # inplace>r=reg128 seems OK.
+    # Otherwise, you give out the allocation control to qhasm
+    # and it will seek another free register for it
+    # and things will not go like vX stores xyz
+    #
+    # HINT: You can free every assigned variable to make it more normal
+    #
+    # TODO: Make a inplace>r=reg128 version for every instruction
+
 
 
 # Don't know what this is
@@ -149,28 +162,28 @@ print( ":".join([
 
 
 
-# print( ":".join([
-# 'return r',
-# 'nofallthrough',
-# #'asm/add sp,sp,$!frame',
-# '<r=int64',
-# 'asm/mov x0,<r',
-# 'asm/ret',
-# 'leave',
-# '',
-# ]) )
+print( ":".join([
+'return r',
+'nofallthrough',
+#'asm/add sp,sp,$!frame',
+'<r=int64',
+'asm/mov x0,<r',
+'asm/ret',
+'leave',
+'',
+]) )
 
 
-# print( ":".join([
-# 'returnq r',
-# 'nofallthrough',
-# #'asm/add sp,sp,$!frame',
-# '<r=reg128',
-# 'asm/mov v0, <r',
-# 'asm/ret',
-# 'leave',
-# '',
-# ]) )
+print( ":".join([
+'returnq r',
+'nofallthrough',
+#'asm/add sp,sp,$!frame',
+'<r=reg128',
+'asm/mov v0, <r',
+'asm/ret',
+'leave',
+'',
+]) )
 
 
 
@@ -558,11 +571,36 @@ print( 't - s >> n:><t=int64:<s=int64:#n:asm/cmp <t,<s,ASR $#n:' )
 print( 't - s unsigned>> n:<t=int64:<s=int64:#n:asm/cmp <t,<s,LSR $#n:' )
 
 
+# TST
+
+print( 't & s:<t=int64:<s=int64:asm/tst <t, <s: ')
+print( 't & (s >>> n):<t=int64:<s=int64:#n:asm/tst <t, <s, ROR $#n: ')
+print( 't & n:<t=int64:#n:asm/tst <t, $#n: ')
+
+
+
+
+
+
+
+
+
+
 
 print('r = t if signed>  else s:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, <s, gt:')
 print('r = t if signed>  else 0:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, xzr, gt:')
-print('r = t if negative else s:>r=int64:<t=int64:<s=int64:asm/csel >r,<t,<s,mi:')
+print('r = t if negative else s:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, <s, mi:')
+print('r = t if carry else s:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, <s, cs:')
+print('r = t if N=0 else s:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, <s, pl:')
+print('r = t if N=1 else s:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, <s, mi:')
+print('r = t if Z=1 else s:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, <s, eq:')
+print('r = t if Z=0 else s:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, <s, ne:')
 
+print('r = t if N=0 else -s:>r=int64:<t=int64:<s=int64:asm/csneg >r, <t, <s, pl:')
+print('r = t if N=1 else -s:>r=int64:<t=int64:<s=int64:asm/csneg >r, <t, <s, mi:')
+
+print('r = t if N=0 else 0:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, xzr, pl:')
+print('r = t if Z=0 else 0:>r=int64:<t=int64:<s=int64:asm/csel >r, <t, xzr, ne:')
 
 print('r = -s !:>r=int64:<s=int64:>?negative:>?carry:>?overflow:>?zero:asm/negs >r,<s:')
 
@@ -718,6 +756,7 @@ print( 'r = mem128[s-=n]:>r=reg128:<s=int64:>s=int64:#n:asm/ldr >r%qregname,[<s,
 
 
 print( 'mem128[s] = r:<s=int64:<r=reg128:asm/str <r%qregname, [<s]:' )
+print( 'mem256[s] = r, t:<s=int64:<r=reg128:<t=reg128:asm/stp <r%qregname, <t%qregname, [<s]:' )
 print( 'mem128[s] = r , s+=n:<s=int64:>s=int64:<r=reg128:#n:asm/str <r%qregname, [<s], $#n:' )
 print( 'mem128[s+n] = r:<s=int64:#n:<r=reg128:asm/str <r%qregname, [<s, $#n]:' )
 print( 'mem128[s+=n] = r:<r=reg128:<s=int64:>s=int64:#n:asm/str <r%qregname, [<s, $#n]!:' )
@@ -796,3 +835,7 @@ print("r = (t >> m) & ((1 << n) - 1):>r=int64:<t=int64:#m:#n:asm/ubfx >r, <t, $#
 
 print( 'r = ~s:>r=int64:<s=int64:asm/mvn >r, <s:')
 print( 'r = ~s:>r=int32:<s=int32:asm/mvn >r, <s:')
+
+
+
+
